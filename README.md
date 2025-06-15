@@ -4,7 +4,7 @@
 
 UnityNaturalMCP is an MCP server implementation for Unity that aims for a "natural" user experience.
 
-MCP tools defined in Unity C# can be used directly from MCP clients such as Claude Code and GitHub Copilot + VSCode."
+MCP tools defined in Unity C# can be used directly from MCP clients such as Claude Code and GitHub Copilot + VSCode.
 
 ## Features
 - Concise communication flow between Unity Editor and MCP clients
