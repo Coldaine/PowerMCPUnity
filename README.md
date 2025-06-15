@@ -51,6 +51,7 @@ Currently, the following MCP tools are implemented:
 - **RefreshAssets**: Refresh Unity Editor assets
 - **GetCurrentConsoleLogs**: Get Unity Console log history
 - **ClearConsoleLogs**: Clear Unity Console logs
+- **RunEditModeTests**: Run Unity Test Runner EditMode tests
 
 ## Installation
 

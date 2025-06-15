@@ -51,6 +51,7 @@ Node.jsで実装された、MCPクライアントとUnity間の通信を中継�
 - **RefreshAssets**: Unity Editorのアセットを更新
 - **GetCurrentConsoleLogs**: Unity Consoleのログを取得
 - **ClearConsoleLogs**: Unity Consoleのログをクリア
+- **RunEditModeTests**: Unity Test RunnerのEditModeテストを実行
 
 ## Installation
 
