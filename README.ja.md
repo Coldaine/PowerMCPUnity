@@ -6,6 +6,10 @@ UnityNaturalMCPは、"ナチュラル"な使い勝手を目指した、Unity向�
 
 Unity C#で定義したMCPツールを、ダイレクトにClaudeCodeやGitHub Copilot + VSCodeなどのMCPクライアントから利用できます。
 
+> [!WARNING]
+> UnityNaturalMCPは、まだpreview段階です。実用可能ですが、いくつかの機能追加が予定されています。
+
+
 ## Features
 - Unity EditorとMCPクライアント間の簡潔な通信フロー
 - stdio/Streamable HTTP対応
