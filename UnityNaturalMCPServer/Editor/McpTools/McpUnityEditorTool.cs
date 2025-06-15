@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using ModelContextProtocol.Server;
 using UnityEditor;
+using UnityEditor.TestTools.TestRunner.Api;
 using UnityEngine;
 using Assert = UnityEngine.Assertions.Assert;
 
@@ -116,6 +117,38 @@ namespace UnityNaturalMCP.Editor.McpTools
                 Assert.IsNotNull(clearMethod);
 
                 clearMethod.Invoke(null, null);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+                throw;
+            }
+        }
+
+        [McpServerTool, Description("Run Edit Mode Tests. Check the results with the GetCurrentConsoleLogs.")]
+        public async ValueTask RunEditModeTests()
+        {
+            try
+            {
+                await UniTask.SwitchToMainThread();
+
+                var testRunnerApi = ScriptableObject.CreateInstance<TestRunnerApi>();
+                var callbacks = new TestRunnerCallbacks();
+                testRunnerApi.RegisterCallbacks(callbacks);
+
+                var filter = new Filter
+                {
+                    testMode = TestMode.EditMode,
+                    testNames = null,
+                    groupNames = null,
+                    categoryNames = null,
+                    assemblyNames = null,
+                    targetPlatform = null,
+                };
+
+                var executionSettings = new ExecutionSettings(filter);
+                testRunnerApi.Execute(executionSettings);
+                await callbacks.WaitForRunFinished();
             }
             catch (Exception e)
             {
