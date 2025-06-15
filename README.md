@@ -144,7 +144,7 @@ Add the following configuration to `.vscode/mcp.json`:
 ## Custom MCP Tool Implementation
 
 ### 1. Create MCP Tool
-In UnityNaturalMCP, you can implement MCP tools in C# using the [ModelProtocolContext C# SDK](https://github.com/modelcontextprotocol/csharp-sdk).
+In UnityNaturalMCP, you can implement MCP tools in C# using the [MCP C# SDK](https://github.com/modelcontextprotocol/csharp-sdk).
 
 Create an asmdef for the Editor and add the following script files.
 

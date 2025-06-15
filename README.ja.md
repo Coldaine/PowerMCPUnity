@@ -143,7 +143,7 @@ VSCode + GitHub Copilotを利用する場合、Streamable HTTPを介した接続
 ## Custom MCP Tool Implementation
 
 ### 1. Create MCP Tool
-UnityNaturalMCPでは、[ModelProtocolContext C#SDK](https://github.com/modelcontextprotocol/csharp-sdk)を用いて、C#でMCPツールを実装することができます。
+UnityNaturalMCPでは、[MCP C# SDK](https://github.com/modelcontextprotocol/csharp-sdk)を用いて、C#でMCPツールを実装することができます。
 
 Editor用のasmdefを作成し、次のスクリプトファイルを追加します。
 
@@ -189,7 +189,7 @@ public class MyCustomMCPToolBuilder : McpBuilderScriptableObject
 ### Best practices for Custom MCP Tools
 
 #### MCPInspector
-MCPInspectorから、Streamable HTTPを介してMCPツールを呼び出し、動作確認をスムーズに行うことができます。
+[MCP Inspector](https://github.com/modelcontextprotocol/inspector)から、Streamable HTTPを介してMCPツールを呼び出し、動作確認をスムーズに行うことができます。
 
 ![MCPInspector](docs/images/mcp_inspector.png)
 
