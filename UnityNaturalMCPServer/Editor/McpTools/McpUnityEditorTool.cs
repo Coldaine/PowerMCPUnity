@@ -128,12 +128,14 @@ namespace UnityNaturalMCP.Editor.McpTools
         [McpServerTool, Description("Run Edit Mode Tests. Check the results with the GetCurrentConsoleLogs.")]
         public async ValueTask RunEditModeTests()
         {
+            TestRunnerApi testRunnerApi = null;
+            TestRunnerCallbacks callbacks = null;
             try
             {
                 await UniTask.SwitchToMainThread();
 
-                var testRunnerApi = ScriptableObject.CreateInstance<TestRunnerApi>();
-                var callbacks = new TestRunnerCallbacks();
+                testRunnerApi = ScriptableObject.CreateInstance<TestRunnerApi>();
+                callbacks = new TestRunnerCallbacks();
                 testRunnerApi.RegisterCallbacks(callbacks);
 
                 var filter = new Filter
@@ -154,6 +156,13 @@ namespace UnityNaturalMCP.Editor.McpTools
             {
                 Debug.LogError(e);
                 throw;
+            }
+            finally
+            {
+                if (callbacks != null)
+                {
+                    testRunnerApi.UnregisterCallbacks(callbacks);
+                }
             }
         }
 
