@@ -9,7 +9,7 @@ namespace UnityNaturalMCP.Editor.McpTools
 {
     internal static class ConsoleLogUtilities
     {
-        public static List<LogEntry> GetLogs(string filter, int maxCount, bool onlyFirstLine, bool isChronological, string logType)
+        public static List<LogEntry> GetLogs(string filter, int maxCount, bool onlyFirstLine, bool isChronological, string[] logTypes)
         {
             var logs = new List<LogEntry>();
             var logEntries = Type.GetType("UnityEditor.LogEntries,UnityEditor.dll");
@@ -36,7 +36,7 @@ namespace UnityNaturalMCP.Editor.McpTools
                 var mode = (int)logEntry.GetType().GetField("mode").GetValue(logEntry);
                 var logTypeValue = UnityInternalLogModeToLogType(mode);
 
-                if ((string.IsNullOrEmpty(logType) || logTypeValue.Equals(logType))
+                if ((logTypes == null || logTypes.Length == 0 || logTypes.Select(logType => logType.ToLower()).Contains(logTypeValue))
                     && (string.IsNullOrEmpty(filter) || Regex.IsMatch(message, filter)))
                 {
                     logs.Add(new LogEntry(onlyFirstLine ? message.Split('\n')[0] : message, logTypeValue));

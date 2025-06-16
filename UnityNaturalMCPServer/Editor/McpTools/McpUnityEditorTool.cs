@@ -13,7 +13,7 @@ namespace UnityNaturalMCP.Editor.McpTools
     [McpServerToolType, Description("Control Unity Editor tools")]
     internal sealed class McpUnityEditorTool
     {
-        [McpServerTool, Description("Execute AssetDatabase.Refresh.It must also be called when compiling a script.")]
+        [McpServerTool, Description("Execute AssetDatabase. Refresh.It must also be called when compiling a script.")]
         public async ValueTask RefreshAssets()
         {
             try
@@ -28,11 +28,11 @@ namespace UnityNaturalMCP.Editor.McpTools
             }
         }
 
-        [McpServerTool, Description("Get current console logs.The default value is adjusted to reduce token usage. Simply call it with the default value the first time and specify arguments only when necessary.")]
+        [McpServerTool, Description("Get current console logs. The default value is adjusted to reduce token usage. Simply call it with the default value the first time and specify arguments only when necessary.")]
         public async ValueTask<IReadOnlyList<LogEntry>> GetCurrentConsoleLogs(
             [Description(
-                "Filter logs by type. Valid values: \"\"(Maches all logs), \"error\", \"warning\", \"log\", \"compile-error\"(This is all you need to check for compilation errors.), \"compile-warning\"")]
-            string logType = "",
+                "Filter logs by type. Valid values: default or empty(Maches all logs), \"error\", \"warning\", \"log\", \"compile-error\"(This is all you need to check for compilation errors.), \"compile-warning\"")]
+            string[] logTypes = null,
             [Description("Filter by regex. If empty, all logs are returned.")]
             string filter = "",
             [Description("Log count limit. Set to 0 for no limit(Not recommended).")]
@@ -48,7 +48,7 @@ namespace UnityNaturalMCP.Editor.McpTools
             {
                 await UniTask.SwitchToMainThread();
 
-                return ConsoleLogUtilities.GetLogs(filter, maxCount, onlyFirstLine, isChronological, logType.ToLower());
+                return ConsoleLogUtilities.GetLogs(filter, maxCount, onlyFirstLine, isChronological, logTypes);
             }
             catch (Exception e)
             {
@@ -74,7 +74,7 @@ namespace UnityNaturalMCP.Editor.McpTools
 
         [McpServerTool,
          Description(
-             "Get compilation errors. Same as `ClearConsoleLgs();GetCurrentConsoleLogs(\"compile-error\", args)`")]
+             "Get compilation errors. Same as `ClearConsoleLogs();GetCurrentConsoleLogs({\"compile-error\", \"compile-warning\"}, args)`")]
         public async ValueTask<IReadOnlyList<LogEntry>> GetCompileErrors(
             [Description("Filter by regex. If empty, all logs are returned.")]
             string filter = "",
@@ -92,7 +92,11 @@ namespace UnityNaturalMCP.Editor.McpTools
                 await UniTask.SwitchToMainThread();
 
                 ConsoleLogUtilities.ClearLogs();
-                return ConsoleLogUtilities.GetLogs(filter, maxCount, onlyFirstLine, isChronological, "compile-error");
+                return ConsoleLogUtilities.GetLogs(filter, maxCount, onlyFirstLine, isChronological, new []
+                {
+                    "compile-error",
+                    "compile-warning"
+                });
             }
             catch (Exception e)
             {
