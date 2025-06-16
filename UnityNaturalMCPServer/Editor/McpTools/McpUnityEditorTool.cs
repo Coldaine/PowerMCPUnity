@@ -31,7 +31,7 @@ namespace UnityNaturalMCP.Editor.McpTools
         [McpServerTool, Description("Get current console logs. The default value is adjusted to reduce token usage. Simply call it with the default value the first time and specify arguments only when necessary.")]
         public async ValueTask<IReadOnlyList<LogEntry>> GetCurrentConsoleLogs(
             [Description(
-                "Filter logs by type. Valid values: default or empty(Maches all logs), \"error\", \"warning\", \"log\", \"compile-error\"(This is all you need to check for compilation errors.), \"compile-warning\"")]
+                "Filter logs by type. Valid values: default or empty(Matches all logs), \"error\", \"warning\", \"log\", \"compile-error\"(This is all you need to check for compilation errors.), \"compile-warning\"")]
             string[] logTypes = null,
             [Description("Filter by regex. If empty, all logs are returned.")]
             string filter = "",
