@@ -9,14 +9,19 @@ namespace UnityNaturalMCP.Editor.McpTools
 {
     internal static class ConsoleLogUtilities
     {
-        public static List<LogEntry> GetLogs(string filter, int maxCount, bool onlyFirstLine, bool isChronological, string[] logTypes)
+        public static List<LogEntry> GetLogs(string filter, int maxCount, bool onlyFirstLine, bool isChronological,
+            string[] logTypes)
         {
+            logTypes ??= Array.Empty<string>();
+            logTypes = logTypes.Select(logType => logType.ToLower()).ToArray();
+
             var logs = new List<LogEntry>();
             var logEntries = Type.GetType("UnityEditor.LogEntries,UnityEditor.dll");
             Assert.IsNotNull(logEntries);
 
             var getCountMethod = logEntries.GetMethod("GetCount", BindingFlags.Public | BindingFlags.Static);
-            var getEntryInternalMethod = logEntries.GetMethod("GetEntryInternal", BindingFlags.Public | BindingFlags.Static);
+            var getEntryInternalMethod =
+                logEntries.GetMethod("GetEntryInternal", BindingFlags.Public | BindingFlags.Static);
 
             Assert.IsNotNull(getCountMethod);
             Assert.IsNotNull(getEntryInternalMethod);
@@ -36,7 +41,7 @@ namespace UnityNaturalMCP.Editor.McpTools
                 var mode = (int)logEntry.GetType().GetField("mode").GetValue(logEntry);
                 var logTypeValue = UnityInternalLogModeToLogType(mode);
 
-                if ((logTypes == null || logTypes.Length == 0 || logTypes.Select(logType => logType.ToLower()).Contains(logTypeValue))
+                if ((logTypes.Length == 0 || logTypes.Contains(logTypeValue))
                     && (string.IsNullOrEmpty(filter) || Regex.IsMatch(message, filter)))
                 {
                     logs.Add(new LogEntry(onlyFirstLine ? message.Split('\n')[0] : message, logTypeValue));
