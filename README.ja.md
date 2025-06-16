@@ -65,9 +65,9 @@ Node.jsで実装された、MCPクライアントとUnity間の通信を中継�
 - [NugetForUnity](https://github.com/GlitchEnzo/NuGetForUnity)
 
 また、NugetForUnityより、次のNuget Packageをインストールしてください。
-- [System.Text.Json](https://www.nuget.org/packages/System.Text.Json/)
-- [ModelContextProtocol](https://www.nuget.org/packages/ModelContextProtocol/)
-- [Microsoft.Extensions.DependencyInjection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/)
+- [System.Text.Json 9.0.x](https://www.nuget.org/packages/System.Text.Json/)
+- [ModelContextProtocol 0.2.x](https://www.nuget.org/packages/ModelContextProtocol/)
+- [Microsoft.Extensions.DependencyInjection 9.0.x](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/)
 
 > [!WARNING]
 > ModelContextProtocolはまだpreview段階です。NugetForUnityを介して導入する場合、`Show Prerelease`トグルを有効化する必要があります。
