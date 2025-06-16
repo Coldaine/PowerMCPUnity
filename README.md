@@ -4,7 +4,7 @@
 
 UnityNaturalMCP is an MCP server implementation for Unity that aims for a "natural" user experience.
 
-MCP tools defined in Unity C# can be used directly from MCP clients such as Claude Code and GitHub Copilot + VSCode.
+MCP tools defined in Unity C# can be used directly from MCP clients such as Claude Code, GitHub Copilot(VSCode) and Cursor.
 
 > [!WARNING]
 > UnityNaturalMCP is still in the preview stage. It is usable in practice, but several feature additions are planned.
@@ -13,7 +13,7 @@ MCP tools defined in Unity C# can be used directly from MCP clients such as Clau
 - Concise communication flow between Unity Editor and MCP clients
 - stdio/Streamable HTTP support
 - Implementation of extended MCP tool entirely written in C# using [MCP C# SDK](https://github.com/modelcontextprotocol/csharp-sdk)
-- ClaudeCode, GitHub Copilot + VSCode support
+- ClaudeCode, GitHub Copilot(VSCode) and Cursor support
 
 ## Requirements
 - Unity 6000.0 or later
@@ -36,7 +36,7 @@ B ---|Streamable HTTP| C[UnityNaturalMCPServer]
 ### UnityNaturalMCPServer
 An MCP server implementation provided as a Unity Package that behaves as a `Streamable HTTP` server.
 
-Clients that support `Streamable HTTP`, such as `Github Copilot + VSCode`, can communicate directly with Unity Editor through this server.
+Clients that support `Streamable HTTP`, such as `Github Copilot(VSCode)`, can communicate directly with Unity Editor through this server.
 
 ### stdio-to-streamable-http
 A Node.js-based stdio MCP server that relays communication between MCP clients and Unity.
@@ -87,15 +87,15 @@ You can install via UPM (Unity Package Manager):
 ![Setting](docs/images/settings.png)
 
 ### Claude Code
-Clone the repository and use the following command to register an MCP server with ClaudeCode.
+Clone this repository and use the following command to register an MCP server with ClaudeCode.
 
-Please replace path/to with the path to the cloned stdio-to-streamable-http.
+Please replace `path/to/UnityNaturalMCP` with the path to the cloned `UnityNaturalMCP`.
 
 ```shell
 claude mcp add-json unity-natural-mcp -s project '{
   "type":"stdio",
   "command": "npm",
-  "args": ["start", "--prefix", "path/to/stdio-to-streamable-http/"],
+  "args": ["start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
   "env": {
     "MCP_SERVER_IP": "localhost",
     "MCP_SERVER_PORT": "8090"
@@ -129,8 +129,8 @@ To work around this, set the IP Address to `*` in Unity's `Edit > Project Settin
 > This is only meant to show a simplified setup procedure.
 > Please adjust accordingly based on your environment.
 
-### VSCode + GitHub Copilot
-When using VSCode + GitHub Copilot, connection via Streamable HTTP is possible.
+### GitHub Copilot(VSCode)
+When using GitHub Copilot(VSCode), connection via Streamable HTTP is possible.
 
 Add the following configuration to `.vscode/mcp.json`:
 
@@ -141,6 +141,26 @@ Add the following configuration to `.vscode/mcp.json`:
       "url": "http://localhost:8090/mcp"
     }
   }
+}
+```
+
+### Cursor
+Clone this repository and add this snippets to `.cursor/mcp.json`.
+
+Please replace `path/to/UnityNaturalMCP` with the path to the cloned `UnityNaturalMCP`.
+
+
+```json
+{
+  "mcpServers": {
+    "stdio-to-streamable-http": {
+      "command": "npm",
+      "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
+      "env": {
+        "MCP_SERVER_IP": "localhost",
+        "MCP_SERVER_PORT": "8090"
+      }
+    }}
 }
 ```
 
