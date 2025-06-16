@@ -64,9 +64,9 @@ The following packages are required:
 - [NugetForUnity](https://github.com/GlitchEnzo/NuGetForUnity)
 
 Also, install the following Nuget Packages via NugetForUnity:
-- [System.Text.Json](https://www.nuget.org/packages/System.Text.Json/)
-- [ModelContextProtocol](https://www.nuget.org/packages/ModelContextProtocol/)
-- [Microsoft.Extensions.DependencyInjection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/)
+- [System.Text.Json 9.0.x](https://www.nuget.org/packages/System.Text.Json/)
+- [ModelContextProtocol 0.2.x](https://www.nuget.org/packages/ModelContextProtocol/)
+- [Microsoft.Extensions.DependencyInjection 9.0.x](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/)
 
 > [!WARNING]
 > ModelContextProtocol is still in preview stage. When installing via NugetForUnity, you need to enable the `Show Prerelease` toggle.
