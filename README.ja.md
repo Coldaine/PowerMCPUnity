@@ -37,7 +37,7 @@ B ---|Streamable HTTP| C[UnityNaturalMCPServer]
 ### UnityNaturalMCPServer
 Unity Packageとして提供される、 `Streamable HTTP` として振る舞うMCPサーバー実装です。
 
-`Github Copilot + VSCode` などの `Streamable HTTP` 対応のクライアントであれば、これを介して単体でUnity Editorと通信することができます。
+`Github Copilot(VSCode)` などの `Streamable HTTP` 対応のクライアントであれば、これを介して単体でUnity Editorと通信することができます。
 
 ### stdio-to-streamable-http
 Node.jsで実装された、MCPクライアントとUnity間の通信を中継する `stdio` ベースのMCPサーバーです。
@@ -88,7 +88,7 @@ UPM(Unity Package Manager)を介してインストールできます。
 ![Settings](docs/images/settings.png)
 
 ### Claude Code
-RepositoryをCloneし、次のコマンドを利用して、ClaudeCodeにMCPサーバーを登録します。
+このRepositoryをCloneし、次のコマンドを利用して、ClaudeCodeにMCPサーバーを登録します。
 
 `path/to/UnityNaturalMCP` は、Cloneした `UnityNaturalMCP` のパスに置き換えてください。
 ```shell
@@ -129,8 +129,8 @@ networkingMode=mirrored
 > こちらはあくまで簡易的なセットアップ手順を示すものです。
 > 環境に応じて、適宜調整を行ってください。
 
-### VSCode + GitHub Copilot
-VSCode + GitHub Copilotを利用する場合、Streamable HTTPを介した接続が可能です。
+### GitHub Copilot(VSCode)
+GitHub Copilot(VSCode)を利用する場合、Streamable HTTPを介した接続が可能です。
 
 `.vscode/mcp.json` に次の設定を追加します。
 
