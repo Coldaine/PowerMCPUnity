@@ -48,7 +48,7 @@ namespace UnityNaturalMCP.Editor.McpTools
             {
                 await UniTask.SwitchToMainThread();
 
-                return ConsoleLogUtilities.GetLogs(filter, maxCount, onlyFirstLine, isChronological, logTypes);
+                return ConsoleLogUtilities.GetLogs(filter, maxCount, onlyFirstLine, isChronological, logTypes ?? Array.Empty<string>());
             }
             catch (Exception e)
             {

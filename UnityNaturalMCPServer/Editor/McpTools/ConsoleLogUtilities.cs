@@ -12,7 +12,6 @@ namespace UnityNaturalMCP.Editor.McpTools
         public static List<LogEntry> GetLogs(string filter, int maxCount, bool onlyFirstLine, bool isChronological,
             string[] logTypes)
         {
-            logTypes ??= Array.Empty<string>();
             logTypes = logTypes.Select(logType => logType.ToLower()).ToArray();
 
             var logs = new List<LogEntry>();
