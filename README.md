@@ -145,7 +145,7 @@ Add the following configuration to `.vscode/mcp.json`:
 ```
 
 ### Cursor
-Clone this repository and add this snippets to `.cursor/mcp.json`.
+Clone this repository and add these snippets to `.cursor/mcp.json`.
 
 Please replace `path/to/UnityNaturalMCP` with the path to the cloned `UnityNaturalMCP`.
 
