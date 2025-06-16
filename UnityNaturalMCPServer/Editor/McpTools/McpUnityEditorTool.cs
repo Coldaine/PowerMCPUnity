@@ -75,7 +75,7 @@ namespace UnityNaturalMCP.Editor.McpTools
         [McpServerTool,
          Description(
              "Get compilation errors. Same as `ClearConsoleLogs();GetCurrentConsoleLogs({\"compile-error\", \"compile-warning\"}, args)`")]
-        public async ValueTask<IReadOnlyList<LogEntry>> GetCompileErrors(
+        public async ValueTask<IReadOnlyList<LogEntry>> GetCompileLogs(
             [Description("Filter by regex. If empty, all logs are returned.")]
             string filter = "",
             [Description("Log count limit. Set to 0 for no limit(Not recommended).")]
