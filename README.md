@@ -16,7 +16,7 @@ MCP tools defined in Unity C# can be used directly from MCP clients such as Clau
 - ClaudeCode, GitHub Copilot + VSCode support
 
 ## Requirements
-- Unity 6000.0
+- Unity 6000.0 or later
 - Node.js 18.0.0 or later
 
 ## Architecture
