@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6230093c3b4062872c5313fb4e44f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipAddress: localhost
+  ipAddress: '*'
   port: 8090
   showMcpServerLog: 1
