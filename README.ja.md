@@ -4,7 +4,7 @@
 
 UnityNaturalMCPは、"ナチュラル"な使い勝手を目指した、Unity向けのMCPサーバー実装です。
 
-Unity C#で定義したMCPツールを、ダイレクトにClaudeCodeやGitHub Copilot + VSCodeなどのMCPクライアントから利用できます。
+Unity C#で定義したMCPツールを、ダイレクトにClaudeCodeやGitHub Copilot(VSCode), CursorなどのMCPクライアントから利用できます。
 
 > [!WARNING]
 > UnityNaturalMCPは、まだpreview段階です。実用可能ですが、いくつかの機能追加が予定されています。
@@ -14,7 +14,7 @@ Unity C#で定義したMCPツールを、ダイレクトにClaudeCodeやGitHub C
 - Unity EditorとMCPクライアント間の簡潔な通信フロー
 - stdio/Streamable HTTP対応
 - [MCP C# SDK](https://github.com/modelcontextprotocol/csharp-sdk)を用いた、C#で完結する拡張MCPツールの実装
-- ClaudeCode, GitHub Copilot + VSCodeサポート
+- ClaudeCode, GitHub Copilot(VSCode), Cursorなどをサポート
 
 ## Requirements
 - Unity 6000.0以降
@@ -90,12 +90,12 @@ UPM(Unity Package Manager)を介してインストールできます。
 ### Claude Code
 RepositoryをCloneし、次のコマンドを利用して、ClaudeCodeにMCPサーバーを登録します。
 
-`path/to` は、Cloneした `stdio-to-streamable-http` のパスに置き換えてください。
+`path/to/UnityNaturalMCP` は、Cloneした `UnityNaturalMCP` のパスに置き換えてください。
 ```shell
 claude mcp add-json unity-natural-mcp -s project '{
   "type":"stdio",
   "command": "npm",
-  "args": ["start", "--prefix", "path/to/stdio-to-streamable-http/"],
+  "args": ["start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
   "env": {
     "MCP_SERVER_IP": "localhost",
     "MCP_SERVER_PORT": "8090"
@@ -141,6 +141,26 @@ VSCode + GitHub Copilotを利用する場合、Streamable HTTPを介した接続
       "url": "http://localhost:8090/mcp"
     }
   }
+}
+```
+
+### Cursor
+このRepositoryをCloneし、`.cursor/mcp.json`へと次を追記してください。
+
+`path/to/UnityNaturalMCP` は、Cloneした `UnityNaturalMCP` のパスに置き換えてください。
+
+
+```json
+{
+  "mcpServers": {
+    "stdio-to-streamable-http": {
+      "command": "npm",
+      "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
+      "env": {
+        "MCP_SERVER_IP": "localhost",
+        "MCP_SERVER_PORT": "8090"
+      }
+    }}
 }
 ```
 
