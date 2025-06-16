@@ -17,8 +17,8 @@ Unity C#で定義したMCPツールを、ダイレクトにClaudeCodeやGitHub C
 - ClaudeCode, GitHub Copilot + VSCodeサポート
 
 ## Requirements
-- Unity 6000.0
-- Node.js 18.0.0 or later
+- Unity 6000.0以降
+- Node.js 18.0.0以降
 
 ## Architecture
 ```mermaid
