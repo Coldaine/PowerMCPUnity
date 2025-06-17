@@ -8,6 +8,7 @@ namespace UnityNaturalMCP.Editor
         public string ipAddress = "localhost";
         public int port = 8090;
         public bool showMcpServerLog = true;
+        public bool enableDefaultMcpTools = true;
 
         public void Save()
         {

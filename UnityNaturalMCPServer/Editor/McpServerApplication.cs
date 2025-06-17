@@ -26,11 +26,11 @@ namespace UnityNaturalMCP.Editor
 
         public async UniTask Run(CancellationToken token)
         {
-            var preference = MCPSetting.instance;
-            var mcpEntPoint = $"http://{preference.ipAddress}:{preference.port}/mcp/";
+            var setting = MCPSetting.instance;
+            var mcpEntPoint = $"http://{setting.ipAddress}:{setting.port}/mcp/";
             _httpListener.Prefixes.Add(mcpEntPoint);
             _httpListener.Start();
-            if (preference.showMcpServerLog)
+            if (setting.showMcpServerLog)
             {
                 Debug.Log($"Started MCP server at {mcpEntPoint}");
             }
@@ -42,8 +42,17 @@ namespace UnityNaturalMCP.Editor
                 .AddMcpServer()
                 .WithStreamServerTransport(
                     clientToServerPipe.Reader.AsStream(),
-                    serverToClientPipe.Writer.AsStream())
-                .WithTools<McpUnityEditorTool>();
+                    serverToClientPipe.Writer.AsStream());
+
+            if (setting.enableDefaultMcpTools)
+            {
+                builder.WithTools<McpUnityEditorTool>();
+
+                if (setting.showMcpServerLog)
+                {
+                    Debug.Log($"Loaded default MCP tools");
+                }
+            }
 
             var mcpBuilderScriptableObjects = AssetDatabase.FindAssets("t:McpBuilderScriptableObject");
             foreach (var guid in mcpBuilderScriptableObjects)
@@ -53,7 +62,7 @@ namespace UnityNaturalMCP.Editor
                 if (scriptableObject != null)
                 {
                     scriptableObject.Build(builder);
-                    if (preference.showMcpServerLog)
+                    if (setting.showMcpServerLog)
                     {
                         Debug.Log($"Loaded MCP tool builder: {scriptableObject.name}");
                     }
