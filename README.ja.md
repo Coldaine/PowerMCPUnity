@@ -153,7 +153,7 @@ GitHub Copilot(VSCode)を利用する場合、Streamable HTTPを介した接続�
 ```json
 {
   "mcpServers": {
-    "stdio-to-streamable-http": {
+    "unity-natural-mcp": {
       "command": "npm",
       "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
       "env": {
