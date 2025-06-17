@@ -153,7 +153,7 @@ Please replace `path/to/UnityNaturalMCP` with the path to the cloned `UnityNatur
 ```json
 {
   "mcpServers": {
-    "stdio-to-streamable-http": {
+    "unity-natural-mcp": {
       "command": "npm",
       "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
       "env": {
