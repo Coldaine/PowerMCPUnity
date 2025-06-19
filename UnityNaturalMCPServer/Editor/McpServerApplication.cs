@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Server;
 using UnityEditor;
 using UnityEngine;
-using UnityNaturalMCP.Editor.McpTools;
 
 namespace UnityNaturalMCP.Editor
 {
@@ -46,7 +45,7 @@ namespace UnityNaturalMCP.Editor
 
             if (setting.enableDefaultMcpTools)
             {
-                builder.WithTools<McpUnityEditorTool>();
+                builder.WithToolsFromAssembly();
 
                 if (setting.showMcpServerLog)
                 {
