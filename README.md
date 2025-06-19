@@ -87,7 +87,7 @@ You can install via UPM (Unity Package Manager):
 ![Setting](docs/images/settings.png)
 
 ### Claude Code
-use the following command to register an MCP server with ClaudeCode.
+Use the following command to register an MCP server with ClaudeCode.
 
 ```shell
 claude mcp add -s project --transport http unity-natural-mcp http://localhost:8090/mcp
