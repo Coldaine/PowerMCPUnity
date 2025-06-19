@@ -87,23 +87,11 @@ You can install via UPM (Unity Package Manager):
 ![Setting](docs/images/settings.png)
 
 ### Claude Code
-Clone this repository and use the following command to register an MCP server with ClaudeCode.
-
-Please replace `path/to/UnityNaturalMCP` with the path to the cloned `UnityNaturalMCP`.
+use the following command to register an MCP server with ClaudeCode.
 
 ```shell
-claude mcp add-json unity-natural-mcp -s project '{
-  "type":"stdio",
-  "command": "npm",
-  "args": ["start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
-  "env": {
-    "MCP_SERVER_IP": "localhost",
-    "MCP_SERVER_PORT": "8090"
-  }
-}'
+claude mcp add -s project --transport http unity-natural-mcp http://localhost:8090/mcp
 ```
-
-You can specify the destination IP address and port through the `MCP_SERVER_IP` and `MCP_SERVER_PORT` environment variables.
 
 ### WSL2
 When using MCP with Claude Code on Windows, you need to use WSL2.
