@@ -6,7 +6,7 @@ namespace UnityNaturalMCP.Editor
     public sealed class MCPSetting : ScriptableSingleton<MCPSetting>
     {
         public string ipAddress = "localhost";
-        public int port = 8090;
+        public int port = 56780;
         public bool showMcpServerLog = true;
         public bool enableDefaultMcpTools = true;
 

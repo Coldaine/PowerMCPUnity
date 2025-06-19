@@ -82,8 +82,12 @@ UPM(Unity Package Manager)を介してインストールできます。
 
 ### Initial Setup
 1. Unity Editorで`Edit > Project Settings > Unity Natural MCP`を開く
-2. MCPサーバーのポート番号を設定（デフォルト: 8090）
+2. MCPサーバーのポート番号を設定（デフォルト: 56780）
 3. `Refresh` ボタンをクリックして設定を反映
+
+> [!NOTE]
+> `56780`はあくまでデフォルトポートです。プロジェクトに合わせて、自由に変更してください。
+> なお、`67 80` はASCII Codeで `CP` を表します。もちろんMCPから来ています。
 
 ![Settings](docs/images/settings.png)
 
@@ -91,7 +95,7 @@ UPM(Unity Package Manager)を介してインストールできます。
 次のコマンドを利用して、ClaudeCodeにMCPサーバーを登録します。
 
 ```shell
-claude mcp add -s project --transport http unity-natural-mcp http://localhost:8090/mcp
+claude mcp add -s project --transport http unity-natural-mcp http://localhost:56780/mcp
 ```
 
 ### WSL2
@@ -127,7 +131,7 @@ GitHub Copilot(VSCode)を利用する場合、Streamable HTTPを介した接続�
 {
   "servers": {
     "unity-natural-mcp": {
-      "url": "http://localhost:8090/mcp"
+      "url": "http://localhost:56780/mcp"
     }
   }
 }
@@ -147,7 +151,7 @@ GitHub Copilot(VSCode)を利用する場合、Streamable HTTPを介した接続�
       "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
       "env": {
         "MCP_SERVER_IP": "localhost",
-        "MCP_SERVER_PORT": "8090"
+        "MCP_SERVER_PORT": "56780"
       }
     }}
 }

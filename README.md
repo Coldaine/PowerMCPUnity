@@ -81,8 +81,12 @@ You can install via UPM (Unity Package Manager):
 
 #### Initial Setup
 1. Open `Edit > Project Settings > Unity Natural MCP` in Unity Editor
-2. Set the MCP server port number (default: 8090)
+2. Set the MCP server port number (default: 56780)
 3. Click the `Refresh` button to apply the settings
+
+> [!NOTE]
+> `56780` is just the default port. Feel free to change it to suit your project.
+> Note that `67 80` is the ASCII code for `CP`. Of course, it comes from MCP.
 
 ![Setting](docs/images/settings.png)
 
@@ -90,7 +94,7 @@ You can install via UPM (Unity Package Manager):
 Use the following command to register an MCP server with ClaudeCode.
 
 ```shell
-claude mcp add -s project --transport http unity-natural-mcp http://localhost:8090/mcp
+claude mcp add -s project --transport http unity-natural-mcp http://localhost:56780/mcp
 ```
 
 ### WSL2
@@ -126,7 +130,7 @@ Add the following configuration to `.vscode/mcp.json`:
 {
   "servers": {
     "unity-natural-mcp": {
-      "url": "http://localhost:8090/mcp"
+      "url": "http://localhost:56780/mcp"
     }
   }
 }
@@ -146,7 +150,7 @@ Please replace `path/to/UnityNaturalMCP` with the path to the cloned `UnityNatur
       "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
       "env": {
         "MCP_SERVER_IP": "localhost",
-        "MCP_SERVER_PORT": "8090"
+        "MCP_SERVER_PORT": "56780"
       }
     }}
 }

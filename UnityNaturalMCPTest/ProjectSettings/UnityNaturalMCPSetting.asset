@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ipAddress: '*'
-  port: 8090
+  port: 56780
   showMcpServerLog: 1
+  enableDefaultMcpTools: 1
