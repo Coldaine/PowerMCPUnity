@@ -5,7 +5,7 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprot
 import type { CallToolRequest, ListToolsRequest } from "@modelcontextprotocol/sdk/types.js";
 
 const MCP_SERVER_IP = process.env.MCP_SERVER_IP || "localhost";
-const MCP_SERVER_PORT = process.env.MCP_SERVER_PORT || "8090";
+const MCP_SERVER_PORT = process.env.MCP_SERVER_PORT || "56780";
 const MCP_SERVER_ENDPOINT = `http://${MCP_SERVER_IP}:${MCP_SERVER_PORT}/mcp`;
 
 const server = new Server(
