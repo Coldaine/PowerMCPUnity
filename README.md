@@ -54,7 +54,8 @@ Currently, the following MCP tools are implemented:
 - **RefreshAssets**: Refresh Unity Editor assets
 - **GetCurrentConsoleLogs**: Get Unity Console log history
 - **ClearConsoleLogs**: Clear Unity Console logs
-- **RunEditModeTests**: Run Unity Test Runner EditMode tests
+- **RunEditModeTests**: Run Edit Mode tests on Unity Test Runner
+- **RunPlayModeTests**: Run Play Mode tests on Unity Test Runner
 
 ## Installation
 
@@ -244,6 +245,18 @@ public async ValueTask<string> AsyncMethod()
     return "Finished async processing";
 }
 ```
+
+## Troubleshooting
+
+### Run tests tool fails due to disconnecting
+
+When a domain reload occurs while running tests, the connection with the Unity editor will be disconnected, and the run tests tool will fail.
+
+Note the following:
+
+- Run tests after the compilation is complete
+- Do not run Edit Mode tests that involve domain reloading
+- When running Play Mode tests, turn off Reload Domain in **Edit > Project Settings > Editor > "Enter Play Mode Settings"**
 
 ## License
 
