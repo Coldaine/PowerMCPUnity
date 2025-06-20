@@ -55,7 +55,8 @@ Node.jsで実装された、MCPクライアントとUnity間の通信を中継�
 - **RefreshAssets**: Unity Editorのアセットを更新
 - **GetCurrentConsoleLogs**: Unity Consoleのログを取得
 - **ClearConsoleLogs**: Unity Consoleのログをクリア
-- **RunEditModeTests**: Unity Test RunnerのEditModeテストを実行
+- **RunEditModeTests**: Unity Test RunnerでEditModeテストを実行
+- **RunPlayModeTests**: Unity Test RunnerでPlayModeテストを実行
 
 ## Installation
 
@@ -245,6 +246,18 @@ public async ValueTask<string> AsyncMethod()
     return "非同期処理完了";
 }
 ```
+
+## トラブルシューティング
+
+### テスト実行ツールがコネクション切断により失敗する
+
+テスト実行時にドメインの再ロードが発生すると、Unityエディターとの接続が切断され、テスト実行ツールが失敗します。
+
+次の点にご注意ください：
+
+- コンパイルが終わってからテスト実行を指示してください
+- ドメインの再ロードを伴うEdit Modeテストは実行しないでください
+- Play Modeテストを実行するときは **Edit > Project Settings > Editor > "Enter Play Mode Settings"** でドメインの再ロードをオフに設定してください
 
 ## License
 
