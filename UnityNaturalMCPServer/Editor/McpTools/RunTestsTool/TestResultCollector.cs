@@ -80,7 +80,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         {
             while (_runFinished == false && !cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(200, cancellationToken);
+                await Task.Delay(500, cancellationToken);
             }
 
             return _abortMessage ?? _testResults.ToJson();
