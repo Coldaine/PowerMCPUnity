@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor.TestTools.TestRunner.Api;
@@ -10,7 +11,9 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
     /// </summary>
     public class TestResultCollector : IErrorCallbacks
     {
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         internal readonly TestResults _testResults = new TestResults();
+
         private string _abortMessage;
         private bool _runFinished;
 
@@ -44,7 +47,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
             {
                 case TestStatus.Failed:
                     _testResults.failCount++;
-                    _testResults.failedTests.Add(CreateFailedTestString(result));
+                    _testResults.failedTests.Add(new FailedTestResult(result));
                     break;
                 case TestStatus.Passed:
                     _testResults.passCount++;
@@ -54,16 +57,11 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                     break;
                 case TestStatus.Inconclusive:
                     _testResults.inconclusiveCount++;
-                    _testResults.failedTests.Add(CreateFailedTestString(result));
+                    _testResults.failedTests.Add(new FailedTestResult(result));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private static string CreateFailedTestString(ITestResultAdaptor result)
-        {
-            return $"Test {result.FullName} is failed with message: {result.Message}\n{result.StackTrace}";
         }
 
         /// <inheritdoc/>
@@ -82,7 +80,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         {
             while (_runFinished == false && !cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(500, cancellationToken);
+                await Task.Delay(200, cancellationToken);
             }
 
             return _abortMessage ?? _testResults.ToJson();

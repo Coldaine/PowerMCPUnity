@@ -16,11 +16,11 @@ namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
         }
 
         public ITestAdaptor Test { get; }
-        public string Name { get; }
+        public string Name { get; set; }
         public string FullName { get; set; }
-        public string ResultState { get; }
+        public string ResultState { get; set; }
         public TestStatus TestStatus { get; set; }
-        public double Duration { get; }
+        public double Duration { get; set; }
         public DateTime StartTime { get; }
         public DateTime EndTime { get; }
         public string Message { get; set; }
@@ -32,6 +32,6 @@ namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
         public int InconclusiveCount { get; }
         public bool HasChildren { get; set; }
         public IEnumerable<ITestResultAdaptor> Children { get; }
-        public string Output { get; }
+        public string Output { get; set; }
     }
 }
