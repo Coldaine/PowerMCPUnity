@@ -9,7 +9,6 @@ Unity C#で定義したMCPツールを、ダイレクトにClaudeCodeやGitHub C
 > [!WARNING]
 > UnityNaturalMCPは、まだpreview段階です。実用可能ですが、いくつかの機能追加が予定されています。
 
-
 ## Features
 - Unity EditorとMCPクライアント間の簡潔な通信フロー
 - stdio/Streamable HTTP対応
@@ -18,7 +17,7 @@ Unity C#で定義したMCPツールを、ダイレクトにClaudeCodeやGitHub C
 
 ## Requirements
 - Unity 6000.0以降
-- Node.js 18.0.0以降
+- Node.js 18.0.0以降 (`mcp-stdio-to-streamable-http`を使用する場合)
 
 ## Architecture
 ```mermaid
@@ -39,10 +38,12 @@ Unity Packageとして提供される、 `Streamable HTTP` として振る舞う
 
 `Github Copilot(VSCode)` などの `Streamable HTTP` 対応のクライアントであれば、これを介して単体でUnity Editorと通信することができます。
 
-### stdio-to-streamable-http
+### mcp-stdio-to-streamable-http
+[mcp-stdio-to-streamable-http](https://github.com/notargs/mcp-stdio-to-streamable-http)
+
 Node.jsで実装された、MCPクライアントとUnity間の通信を中継する `stdio` ベースのMCPサーバーです。
 
-`ClaudeCode` などの一部のMCPクライアントは、2025/6/15現在、 `Streamable HTTP` に対応していません。
+`Cursor` などの一部のMCPクライアントは、2025/6/23現在、 `Streamable HTTP` に対応していません。
 
 `stdio` の入力を `Streamable HTTP` にバイパスすることで、 `UnityNaturalMCPServer` とMCPクライアントの間の通信を可能にします。
 
@@ -139,17 +140,20 @@ GitHub Copilot(VSCode)を利用する場合、Streamable HTTPを介した接続�
 ```
 
 ### Cursor
-このRepositoryをCloneし、`.cursor/mcp.json`へと次を追記してください。
+Cursorは2025/6/23現在、Streamable HTTPに対応していないため、`stdio`を介して接続する必要があります。
+[mcp-stdio-to-streamable-http Releases](https://github.com/notargs/mcp-stdio-to-streamable-http/releases) より、最新の `mcp-stdio-to-streamable-http-*.zip` をダウンロードしてください。
 
-`path/to/UnityNaturalMCP` は、Cloneした `UnityNaturalMCP` のパスに置き換えてください。
+`.cursor/mcp.json`へと次を追記してください。
+
+`path/to/mcp-stdio-to-streamable-http` は、Cloneした `mcp-stdio-to-streamable-http` のパスに置き換えてください。
 
 
 ```json
 {
   "mcpServers": {
     "unity-natural-mcp": {
-      "command": "npm",
-      "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
+      "command": "node",
+      "args": ["path/to/mcp-stdio-to-streamable-http/dist/index.js"],
       "env": {
         "MCP_SERVER_IP": "localhost",
         "MCP_SERVER_PORT": "56780"
