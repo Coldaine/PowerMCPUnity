@@ -17,7 +17,7 @@ MCP tools defined in Unity C# can be used directly from MCP clients such as Clau
 
 ## Requirements
 - Unity 6000.0 or later
-- Node.js 18.0.0 or later
+- Node.js 18.0.0 or later (if using `mcp-stdio-to-streamable-http`)
 
 ## Architecture
 ```mermaid
@@ -38,10 +38,12 @@ An MCP server implementation provided as a Unity Package that behaves as a `Stre
 
 Clients that support `Streamable HTTP`, such as `Github Copilot(VSCode)`, can communicate directly with Unity Editor through this server.
 
-### stdio-to-streamable-http
+### mcp-stdio-to-streamable-http
+[mcp-stdio-to-streamable-http](https://github.com/notargs/mcp-stdio-to-streamable-http)
+
 A Node.js-based stdio MCP server that relays communication between MCP clients and Unity.
 
-Some MCP clients, such as `ClaudeCode`, do not support `Streamable HTTP` as of June 15, 2025.
+Some MCP clients, such as `Cursor`, do not support `Streamable HTTP` as of June 23, 2025.
 
 By bypassing stdio input to `Streamable HTTP`, it enables communication between `UnityNaturalMCPServer` and MCP clients.
 
@@ -138,17 +140,21 @@ Add the following configuration to `.vscode/mcp.json`:
 ```
 
 ### Cursor
+Cursor does not support `Streamable HTTP` as of June 23, 2025.
+You need to connect via `stdio`.
+Please download the latest mcp-stdio-to-streamable-http from [mcp-stdio-to-streamable-http Releases](https://github.com/notargs/mcp-stdio-to-streamable-http/releases).
+
 Clone this repository and add these snippets to `.cursor/mcp.json`.
 
-Please replace `path/to/UnityNaturalMCP` with the path to the cloned `UnityNaturalMCP`.
+Please replace `path/to/mcp-stdio-to-streamable-http` with the path to the cloned `mcp-stdio-to-streamable-http`.
 
 
 ```json
 {
   "mcpServers": {
     "unity-natural-mcp": {
-      "command": "npm",
-      "args": ["run", "start", "--prefix", "path/to/UnityNaturalMCP/stdio-to-streamable-http/"],
+      "command": "node",
+      "args": ["path/to/mcp-stdio-to-streamable-http/dist/index.js"],
       "env": {
         "MCP_SERVER_IP": "localhost",
         "MCP_SERVER_PORT": "56780"
