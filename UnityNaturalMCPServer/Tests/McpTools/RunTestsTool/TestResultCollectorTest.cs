@@ -61,9 +61,13 @@ namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
             var failed = new FakeTestResultAdaptor
             {
                 TestStatus = TestStatus.Failed,
+                Name = "FailedTest",
                 FullName = "Fake.FailedTest",
+                ResultState = "Failed:Error",
+                Duration = 1.23d,
                 Message = "Message of Fake.FailedTest",
-                StackTrace = "Stack trace of Fake.FailedTest"
+                StackTrace = "Stack trace of Fake.FailedTest",
+                Output = "Output of Fake.FailedTest"
             };
 
             var sut = new TestResultCollector();
@@ -71,11 +75,8 @@ namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
             sut.TestFinished(failed); // twice
 
             Assert.That(sut._testResults.failCount, Is.EqualTo(2));
-            Assert.That(sut._testResults.failedTests, Is.EqualTo(new[]
-            {
-                "Test Fake.FailedTest is failed with message: Message of Fake.FailedTest\nStack trace of Fake.FailedTest",
-                "Test Fake.FailedTest is failed with message: Message of Fake.FailedTest\nStack trace of Fake.FailedTest"
-            }));
+            Assert.That(sut._testResults.ToJson(), Is.EqualTo(
+                "{\"failCount\":2,\"passCount\":0,\"skipCount\":0,\"inconclusiveCount\":0,\"failedTests\":[{\"name\":\"FailedTest\",\"fullName\":\"Fake.FailedTest\",\"resultState\":\"Failed:Error\",\"testStatus\":\"Failed\",\"duration\":1.23,\"message\":\"Message of Fake.FailedTest\",\"stackTrace\":\"Stack trace of Fake.FailedTest\",\"output\":\"Output of Fake.FailedTest\"},{\"name\":\"FailedTest\",\"fullName\":\"Fake.FailedTest\",\"resultState\":\"Failed:Error\",\"testStatus\":\"Failed\",\"duration\":1.23,\"message\":\"Message of Fake.FailedTest\",\"stackTrace\":\"Stack trace of Fake.FailedTest\",\"output\":\"Output of Fake.FailedTest\"}],\"success\":false}"));
         }
 
         [Test]
@@ -84,9 +85,13 @@ namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
             var inconclusive = new FakeTestResultAdaptor
             {
                 TestStatus = TestStatus.Inconclusive,
+                Name = "InconclusiveTest",
                 FullName = "Fake.InconclusiveTest",
+                ResultState = "Inconclusive",
+                Duration = 1.23d,
                 Message = "Message of Fake.InconclusiveTest",
-                StackTrace = "Stack trace of Fake.InconclusiveTest"
+                StackTrace = "Stack trace of Fake.InconclusiveTest",
+                Output = "Output of Fake.InconclusiveTest"
             };
 
             var sut = new TestResultCollector();
@@ -94,11 +99,8 @@ namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
             sut.TestFinished(inconclusive); // twice
 
             Assert.That(sut._testResults.inconclusiveCount, Is.EqualTo(2));
-            Assert.That(sut._testResults.failedTests, Is.EqualTo(new[]
-            {
-                "Test Fake.InconclusiveTest is failed with message: Message of Fake.InconclusiveTest\nStack trace of Fake.InconclusiveTest",
-                "Test Fake.InconclusiveTest is failed with message: Message of Fake.InconclusiveTest\nStack trace of Fake.InconclusiveTest"
-            }));
+            Assert.That(sut._testResults.ToJson(), Is.EqualTo(
+                "{\"failCount\":0,\"passCount\":0,\"skipCount\":0,\"inconclusiveCount\":2,\"failedTests\":[{\"name\":\"InconclusiveTest\",\"fullName\":\"Fake.InconclusiveTest\",\"resultState\":\"Inconclusive\",\"testStatus\":\"Inconclusive\",\"duration\":1.23,\"message\":\"Message of Fake.InconclusiveTest\",\"stackTrace\":\"Stack trace of Fake.InconclusiveTest\",\"output\":\"Output of Fake.InconclusiveTest\"},{\"name\":\"InconclusiveTest\",\"fullName\":\"Fake.InconclusiveTest\",\"resultState\":\"Inconclusive\",\"testStatus\":\"Inconclusive\",\"duration\":1.23,\"message\":\"Message of Fake.InconclusiveTest\",\"stackTrace\":\"Stack trace of Fake.InconclusiveTest\",\"output\":\"Output of Fake.InconclusiveTest\"}],\"success\":false}"));
         }
 
         [Test]

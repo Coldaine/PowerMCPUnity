@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using UnityEditor.TestTools.TestRunner.Api;
 
 namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
 {
@@ -31,7 +32,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         /// Failed or inconclusive tests.
         /// </summary>
         [SuppressMessage("ReSharper", "CollectionNeverQueried.Global")]
-        public List<string> failedTests { get; } = new List<string>();
+        public List<FailedTestResult> failedTests { get; } = new List<FailedTestResult>();
 
         /// <summary>
         /// Returns true if all tests passed.
@@ -45,6 +46,31 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         public string ToJson()
         {
             return JsonSerializer.Serialize(this);
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class FailedTestResult
+    {
+        public string name { get; }
+        public string fullName { get; }
+        public string resultState { get; }
+        public string testStatus { get; }
+        public double duration { get; }
+        public string message { get; }
+        public string stackTrace { get; }
+        public string output { get; }
+
+        public FailedTestResult(ITestResultAdaptor result)
+        {
+            name = result.Name;
+            fullName = result.FullName;
+            resultState = result.ResultState;
+            testStatus = result.TestStatus.ToString();
+            duration = result.Duration;
+            message = result.Message;
+            stackTrace = result.StackTrace;
+            output = result.Output;
         }
     }
 }
