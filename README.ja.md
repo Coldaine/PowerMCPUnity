@@ -1,14 +1,15 @@
 # UnityNaturalMCP
 
-![](https://img.shields.io/github/stars/notargs/UnityNaturalMCP)
-![](https://img.shields.io/github/forks/notargs/UnityNaturalMCP)
+![Stars](https://img.shields.io/github/stars/notargs/UnityNaturalMCP)
+![Forks](https://img.shields.io/github/forks/notargs/UnityNaturalMCP)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/notargs/UnityNaturalMCP)
 
-![](https://img.shields.io/badge/Unity-111?logo=unity)
-![](https://img.shields.io/badge/C%23-512BD4)
-![](https://img.shields.io/badge/GitHub_Copilot-111?logo=githubcopilot)
-![](https://img.shields.io/badge/Claude_Code-555?logo=claude)
-![](https://img.shields.io/badge/Cursor-111)
-![](https://img.shields.io/badge/WSL2-28b)
+![Unity](https://img.shields.io/badge/Unity-6000.0-111?logo=unity)
+![.NET C# 9.0](https://img.shields.io/badge/.NET-C%23_9.0-512BD4.svg)
+![GitHubCopilot](https://img.shields.io/badge/GitHub_Copilot-111?logo=githubcopilot)
+![ClaudeCode](https://img.shields.io/badge/Claude_Code-555?logo=claude)
+![Cursor](https://img.shields.io/badge/Cursor-111)
+![WSL2](https://img.shields.io/badge/WSL2-28b)
 
 [English](README.md)
 
