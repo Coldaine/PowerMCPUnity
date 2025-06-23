@@ -1,4 +1,13 @@
 # UnityNaturalMCP
+![](https://img.shields.io/github/stars/notargs/UnityNaturalMCP)
+![](https://img.shields.io/github/forks/notargs/UnityNaturalMCP)
+
+![](https://img.shields.io/badge/Unity-111?logo=unity)
+![](https://img.shields.io/badge/C%23-512BD4)
+![](https://img.shields.io/badge/GitHub_Copilot-111?logo=githubcopilot)
+![](https://img.shields.io/badge/Claude_Code-555?logo=claude)
+![](https://img.shields.io/badge/Cursor-111)
+![](https://img.shields.io/badge/WSL2-28b)
 
 [日本語](README.ja.md)
 
