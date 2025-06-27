@@ -173,6 +173,21 @@ Please replace `path/to/mcp-stdio-to-streamable-http` with the path to the clone
 }
 ```
 
+### Gemini CLI
+Streamable HTTP is supported. Create `.gemini/settings.json` at the root and add the following (if you use a custom port, replace `56780`):
+```json
+{
+  "mcpServers": {
+    "httpServer": {
+      "httpUrl": "http://localhost:56780/mcp"
+    }
+  }
+}
+```
+For more details, see the Gemini CLI documentation:
+https://github.com/google-gemini/gemini-cli/blob/c55b15f7/docs/tools/mcp-server.md#http-based-mcp-server
+
+
 ## Custom MCP Tool Implementation
 
 ### 1. Create MCP Tool
