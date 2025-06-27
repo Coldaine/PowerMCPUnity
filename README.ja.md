@@ -185,7 +185,7 @@ Streamable HTTPに対応しています。ルートに`.gemini/settings.json`を
 }
 ```
 詳細はGemini CLIのドキュメントを参照してください。  
-[https://github.com/google-gemini/gemini-cli/blob/c55b15f7/docs/tools/mcp-server.md#http-based-mcp-server](https://github.com/google-gemini/gemini-cli/blob/c55b15f7/docs/tools/mcp-server.md#http-based-mcp-server)
+[Gemini CLI ドキュメント – HTTP ベースの MCP サーバ](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#http-based-mcp-server)
 
 
 ## Custom MCP Tool Implementation
