@@ -173,6 +173,21 @@ Cursorは2025/6/23現在、Streamable HTTPに対応していないため、`stdi
 }
 ```
 
+### Gemini CLI
+Streamable HTTPに対応しています。ルートに`.gemini/settings.json`を作成し、以下を記述してください（独自のポート番号にした場合は、`56780`を修正してください）
+```json
+{
+  "mcpServers": {
+    "httpServer": {
+      "httpUrl": "http://localhost:56780/mcp"
+    }
+  }
+}
+```
+詳細はGemini CLIのドキュメントを参照してください。  
+[https://github.com/google-gemini/gemini-cli/blob/c55b15f7/docs/tools/mcp-server.md#http-based-mcp-server](https://github.com/google-gemini/gemini-cli/blob/c55b15f7/docs/tools/mcp-server.md#http-based-mcp-server)
+
+
 ## Custom MCP Tool Implementation
 
 ### 1. Create MCP Tool
