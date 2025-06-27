@@ -185,7 +185,7 @@ Streamable HTTP is supported. Create `.gemini/settings.json` at the root and add
 }
 ```
 For more details, see the Gemini CLI documentation:
-https://github.com/google-gemini/gemini-cli/blob/c55b15f7/docs/tools/mcp-server.md#http-based-mcp-server
+[Gemini CLI documentation: HTTP-based MCP server](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#http-based-mcp-server)
 
 
 ## Custom MCP Tool Implementation
