@@ -14,13 +14,14 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         internal readonly TestResults _testResults = new TestResults();
 
+        private string _rootSuiteName;
         private string _abortMessage;
         private bool _runFinished;
 
         /// <inheritdoc/>
         public void RunStarted(ITestAdaptor testsToRun)
         {
-            // nop
+            _rootSuiteName = testsToRun.FullName;
         }
 
         /// <inheritdoc/>
@@ -40,7 +41,12 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         {
             if (result.HasChildren)
             {
-                return;
+                return; // Exclude test suites.
+            }
+
+            if (result.FullName == _rootSuiteName)
+            {
+                return; // Note: When the filter result is 0, the "Passed" node with the same name as the project name is included, so exclude it.
             }
 
             switch (result.TestStatus)

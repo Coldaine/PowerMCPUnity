@@ -9,6 +9,15 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
     [TestFixture]
     public class TestResultCollectorTest
     {
+        private const string RootTestSuiteFullName = "UnityNaturalMCP";
+
+        private static TestResultCollector CreateTestResultCollector()
+        {
+            var sut = new TestResultCollector();
+            sut.RunStarted(new FakeTestAdaptor { FullName = RootTestSuiteFullName });
+            return sut;
+        }
+
         [Test]
         public void TestFinished_HasChildren_NotCountedUp()
         {
@@ -18,7 +27,22 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                 TestStatus = TestStatus.Passed
             };
 
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
+            sut.TestFinished(hasChildren);
+
+            Assert.That(sut._testResults.passCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TestFinished_SameFullNameAsRootTestSuite_NotCountedUp()
+        {
+            var hasChildren = new FakeTestResultAdaptor
+            {
+                FullName = RootTestSuiteFullName,
+                TestStatus = TestStatus.Passed
+            };
+
+            var sut = CreateTestResultCollector();
             sut.TestFinished(hasChildren);
 
             Assert.That(sut._testResults.passCount, Is.EqualTo(0));
@@ -32,7 +56,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                 TestStatus = TestStatus.Passed
             };
 
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
             sut.TestFinished(passed);
             sut.TestFinished(passed); // twice
 
@@ -47,7 +71,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                 TestStatus = TestStatus.Skipped
             };
 
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
             sut.TestFinished(skipped);
             sut.TestFinished(skipped); // twice
 
@@ -69,7 +93,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                 Output = "Output of Fake.FailedTest"
             };
 
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
             sut.TestFinished(failed);
             sut.TestFinished(failed); // twice
 
@@ -93,7 +117,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                 Output = "Output of Fake.InconclusiveTest"
             };
 
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
             sut.TestFinished(inconclusive);
             sut.TestFinished(inconclusive); // twice
 
@@ -106,7 +130,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         [Timeout(5000)]
         public async Task WaitForRunFinished_RunFinished_LeaveAwaiting()
         {
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
             sut.RunFinished(null);
 
             var result = await sut.WaitForRunFinished();
@@ -118,7 +142,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         public async Task WaitForRunFinished_OnError_LeaveAwaiting()
         {
             var message = "Error occurred!";
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
             sut.OnError(message);
 
             var result = await sut.WaitForRunFinished();
@@ -129,7 +153,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         [Timeout(5000)]
         public async Task WaitForRunFinished_Cancel_LeaveAwaiting()
         {
-            var sut = new TestResultCollector();
+            var sut = CreateTestResultCollector();
             var cts = new CancellationTokenSource();
             cts.CancelAfter(1000);
 
