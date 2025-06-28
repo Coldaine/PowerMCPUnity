@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,19 +13,22 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         internal readonly TestResults _testResults = new TestResults();
 
-        private string _rootSuiteName;
         private string _abortMessage;
         private bool _runFinished;
 
         /// <inheritdoc/>
         public void RunStarted(ITestAdaptor testsToRun)
         {
-            _rootSuiteName = testsToRun.FullName;
+            // nop
         }
 
         /// <inheritdoc/>
         public void RunFinished(ITestResultAdaptor result)
         {
+            _testResults.failCount = result.FailCount;
+            _testResults.passCount = result.PassCount;
+            _testResults.skipCount = result.SkipCount;
+            _testResults.inconclusiveCount = result.InconclusiveCount;
             _runFinished = true;
         }
 
@@ -41,32 +43,12 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         {
             if (result.HasChildren)
             {
-                return; // Exclude test suites.
+                return;
             }
 
-            if (result.FullName == _rootSuiteName)
+            if (result.TestStatus == TestStatus.Failed || result.TestStatus == TestStatus.Inconclusive)
             {
-                return; // Note: When the filter result is 0, the "Passed" node with the same name as the project name is included, so exclude it.
-            }
-
-            switch (result.TestStatus)
-            {
-                case TestStatus.Failed:
-                    _testResults.failCount++;
-                    _testResults.failedTests.Add(new FailedTestResult(result));
-                    break;
-                case TestStatus.Passed:
-                    _testResults.passCount++;
-                    break;
-                case TestStatus.Skipped:
-                    _testResults.skipCount++;
-                    break;
-                case TestStatus.Inconclusive:
-                    _testResults.inconclusiveCount++;
-                    _testResults.failedTests.Add(new FailedTestResult(result));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                _testResults.failedTests.Add(new FailedTestResult(result));
             }
         }
 

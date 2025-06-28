@@ -9,77 +9,28 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
     [TestFixture]
     public class TestResultCollectorTest
     {
-        private const string RootTestSuiteFullName = "UnityNaturalMCP";
-
-        private static TestResultCollector CreateTestResultCollector()
+        [Test]
+        public void RunFinished_SetTestCounts()
         {
+            var finish = new FakeTestResultAdaptor
+            {
+                FailCount = 2,
+                PassCount = 3,
+                SkipCount = 5,
+                InconclusiveCount = 7
+            };
+
             var sut = new TestResultCollector();
-            sut.RunStarted(new FakeTestAdaptor { FullName = RootTestSuiteFullName });
-            return sut;
+            sut.RunFinished(finish);
+
+            Assert.That(sut._testResults.failCount, Is.EqualTo(2));
+            Assert.That(sut._testResults.passCount, Is.EqualTo(3));
+            Assert.That(sut._testResults.skipCount, Is.EqualTo(5));
+            Assert.That(sut._testResults.inconclusiveCount, Is.EqualTo(7));
         }
 
         [Test]
-        public void TestFinished_HasChildren_NotCountedUp()
-        {
-            var hasChildren = new FakeTestResultAdaptor
-            {
-                HasChildren = true,
-                TestStatus = TestStatus.Passed
-            };
-
-            var sut = CreateTestResultCollector();
-            sut.TestFinished(hasChildren);
-
-            Assert.That(sut._testResults.passCount, Is.EqualTo(0));
-        }
-
-        [Test]
-        public void TestFinished_SameFullNameAsRootTestSuite_NotCountedUp()
-        {
-            var hasChildren = new FakeTestResultAdaptor
-            {
-                FullName = RootTestSuiteFullName,
-                TestStatus = TestStatus.Passed
-            };
-
-            var sut = CreateTestResultCollector();
-            sut.TestFinished(hasChildren);
-
-            Assert.That(sut._testResults.passCount, Is.EqualTo(0));
-        }
-
-        [Test]
-        public void TestFinished_Passed_PassedIsCountedUp()
-        {
-            var passed = new FakeTestResultAdaptor
-            {
-                TestStatus = TestStatus.Passed
-            };
-
-            var sut = CreateTestResultCollector();
-            sut.TestFinished(passed);
-            sut.TestFinished(passed); // twice
-
-            Assert.That(sut._testResults.passCount, Is.EqualTo(2));
-        }
-
-        [Test]
-        public void TestFinished_Skipped_SkippedIsCountedUp()
-        {
-            var skipped = new FakeTestResultAdaptor
-            {
-                TestStatus = TestStatus.Skipped
-            };
-
-            var sut = CreateTestResultCollector();
-            sut.TestFinished(skipped);
-            sut.TestFinished(skipped); // twice
-
-            Assert.That(sut._testResults.skipCount, Is.EqualTo(2));
-        }
-
-        [Test]
-        public void TestFinished_Failed_FailedIsCountedUp()
+        public void TestFinished_Failed_AddToFailedTests()
         {
             var failed = new FakeTestResultAdaptor
             {
@@ -93,17 +44,16 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                 Output = "Output of Fake.FailedTest"
             };
 
-            var sut = CreateTestResultCollector();
+            var sut = new TestResultCollector();
             sut.TestFinished(failed);
             sut.TestFinished(failed); // twice
 
-            Assert.That(sut._testResults.failCount, Is.EqualTo(2));
-            Assert.That(sut._testResults.ToJson(), Is.EqualTo(
-                "{\"failCount\":2,\"passCount\":0,\"skipCount\":0,\"inconclusiveCount\":0,\"failedTests\":[{\"name\":\"FailedTest\",\"fullName\":\"Fake.FailedTest\",\"resultState\":\"Failed:Error\",\"testStatus\":\"Failed\",\"duration\":1.23,\"message\":\"Message of Fake.FailedTest\",\"stackTrace\":\"Stack trace of Fake.FailedTest\",\"output\":\"Output of Fake.FailedTest\"},{\"name\":\"FailedTest\",\"fullName\":\"Fake.FailedTest\",\"resultState\":\"Failed:Error\",\"testStatus\":\"Failed\",\"duration\":1.23,\"message\":\"Message of Fake.FailedTest\",\"stackTrace\":\"Stack trace of Fake.FailedTest\",\"output\":\"Output of Fake.FailedTest\"}],\"success\":false}"));
+            Assert.That(sut._testResults.ToJson(), Does.Contain(
+                "\"failedTests\":[{\"name\":\"FailedTest\",\"fullName\":\"Fake.FailedTest\",\"resultState\":\"Failed:Error\",\"testStatus\":\"Failed\",\"duration\":1.23,\"message\":\"Message of Fake.FailedTest\",\"stackTrace\":\"Stack trace of Fake.FailedTest\",\"output\":\"Output of Fake.FailedTest\"},{\"name\":\"FailedTest\",\"fullName\":\"Fake.FailedTest\",\"resultState\":\"Failed:Error\",\"testStatus\":\"Failed\",\"duration\":1.23,\"message\":\"Message of Fake.FailedTest\",\"stackTrace\":\"Stack trace of Fake.FailedTest\",\"output\":\"Output of Fake.FailedTest\"}]"));
         }
 
         [Test]
-        public void TestFinished_Inconclusive_InconclusiveIsCountedUp()
+        public void TestFinished_Inconclusive_AddToFailedTests()
         {
             var inconclusive = new FakeTestResultAdaptor
             {
@@ -117,21 +67,20 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
                 Output = "Output of Fake.InconclusiveTest"
             };
 
-            var sut = CreateTestResultCollector();
+            var sut = new TestResultCollector();
             sut.TestFinished(inconclusive);
             sut.TestFinished(inconclusive); // twice
 
-            Assert.That(sut._testResults.inconclusiveCount, Is.EqualTo(2));
-            Assert.That(sut._testResults.ToJson(), Is.EqualTo(
-                "{\"failCount\":0,\"passCount\":0,\"skipCount\":0,\"inconclusiveCount\":2,\"failedTests\":[{\"name\":\"InconclusiveTest\",\"fullName\":\"Fake.InconclusiveTest\",\"resultState\":\"Inconclusive\",\"testStatus\":\"Inconclusive\",\"duration\":1.23,\"message\":\"Message of Fake.InconclusiveTest\",\"stackTrace\":\"Stack trace of Fake.InconclusiveTest\",\"output\":\"Output of Fake.InconclusiveTest\"},{\"name\":\"InconclusiveTest\",\"fullName\":\"Fake.InconclusiveTest\",\"resultState\":\"Inconclusive\",\"testStatus\":\"Inconclusive\",\"duration\":1.23,\"message\":\"Message of Fake.InconclusiveTest\",\"stackTrace\":\"Stack trace of Fake.InconclusiveTest\",\"output\":\"Output of Fake.InconclusiveTest\"}],\"success\":false}"));
+            Assert.That(sut._testResults.ToJson(), Does.Contain(
+                "\"failedTests\":[{\"name\":\"InconclusiveTest\",\"fullName\":\"Fake.InconclusiveTest\",\"resultState\":\"Inconclusive\",\"testStatus\":\"Inconclusive\",\"duration\":1.23,\"message\":\"Message of Fake.InconclusiveTest\",\"stackTrace\":\"Stack trace of Fake.InconclusiveTest\",\"output\":\"Output of Fake.InconclusiveTest\"},{\"name\":\"InconclusiveTest\",\"fullName\":\"Fake.InconclusiveTest\",\"resultState\":\"Inconclusive\",\"testStatus\":\"Inconclusive\",\"duration\":1.23,\"message\":\"Message of Fake.InconclusiveTest\",\"stackTrace\":\"Stack trace of Fake.InconclusiveTest\",\"output\":\"Output of Fake.InconclusiveTest\"}]"));
         }
 
         [Test]
         [Timeout(5000)]
         public async Task WaitForRunFinished_RunFinished_LeaveAwaiting()
         {
-            var sut = CreateTestResultCollector();
-            sut.RunFinished(null);
+            var sut = new TestResultCollector();
+            sut.RunFinished(new FakeTestResultAdaptor());
 
             var result = await sut.WaitForRunFinished();
             Debug.Log(result);
@@ -142,7 +91,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         public async Task WaitForRunFinished_OnError_LeaveAwaiting()
         {
             var message = "Error occurred!";
-            var sut = CreateTestResultCollector();
+            var sut = new TestResultCollector();
             sut.OnError(message);
 
             var result = await sut.WaitForRunFinished();
@@ -153,7 +102,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
         [Timeout(5000)]
         public async Task WaitForRunFinished_Cancel_LeaveAwaiting()
         {
-            var sut = CreateTestResultCollector();
+            var sut = new TestResultCollector();
             var cts = new CancellationTokenSource();
             cts.CancelAfter(1000);
 
