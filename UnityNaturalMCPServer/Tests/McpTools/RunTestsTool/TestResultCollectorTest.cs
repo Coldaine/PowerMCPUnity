@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEditor.TestTools.TestRunner.Api;
 using UnityEngine;
-using UnityNaturalMCP.Editor.McpTools.RunTestsTool;
 
-namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
+namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
 {
     [TestFixture]
     public class TestResultCollectorTest

@@ -5,7 +5,7 @@ using NUnit.Framework.Interfaces;
 using UnityEditor.TestTools.TestRunner.Api;
 using TestStatus = UnityEditor.TestTools.TestRunner.Api.TestStatus;
 
-namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
+namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
 {
     [SuppressMessage("ReSharper", "UnassignedGetOnlyAutoProperty")]
     public class FakeTestResultAdaptor : ITestResultAdaptor

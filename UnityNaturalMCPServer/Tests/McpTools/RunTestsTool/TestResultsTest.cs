@@ -1,7 +1,6 @@
 using NUnit.Framework;
-using UnityNaturalMCP.Editor.McpTools.RunTestsTool;
 
-namespace UnityNaturalMCP.Tests.McpTools.RunTestsTool
+namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
 {
     [TestFixture]
     public class TestResultsTest
