@@ -63,6 +63,8 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
             string[] testNames = null,
             CancellationToken cancellationToken = default)
         {
+            const string CompilationError = "All compiler errors have to be fixed before you can enter playmode!";
+
             var filter = new Filter
             {
                 assemblyNames = assemblyNames, categoryNames = categoryNames,
@@ -70,6 +72,7 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
             };
             Debug.Log($"Running tests, {filter}");
 
+            CompilationErrorLogHandler logHandler = null;
             TestResultCollector testResultCollector = null;
             TestRunnerApi testRunner = null;
             string testJobGuid = null;
@@ -78,21 +81,32 @@ namespace UnityNaturalMCP.Editor.McpTools.RunTestsTool
             {
                 await UniTask.SwitchToMainThread();
 
+                logHandler = new CompilationErrorLogHandler(CompilationError);
+
                 testResultCollector = new TestResultCollector();
                 TestRunnerApi.RegisterTestCallback(testResultCollector);
 
                 testRunner = ScriptableObject.CreateInstance<TestRunnerApi>();
                 testJobGuid = testRunner.Execute(new ExecutionSettings(filter));
 
-                return await testResultCollector.WaitForRunFinished(cancellationToken);
+                var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(
+                    cancellationToken,
+                    logHandler.CancellationToken);
+                return await testResultCollector.WaitForRunFinished(linkedTokenSource.Token);
             }
             catch (OperationCanceledException e)
             {
+                if (logHandler != null && logHandler.CancellationToken.IsCancellationRequested)
+                {
+                    return CompilationError;
+                }
+
                 Debug.LogWarning(e.Message);
                 throw;
             }
             finally
             {
+                logHandler?.Dispose();
                 if (testJobGuid != null)
                     TestRunnerApi.CancelTestRun(testJobGuid);
                 if (testResultCollector != null)
