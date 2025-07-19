@@ -212,6 +212,13 @@ namespace Editor
             return tests;
         }
 
+        [McpServerTool, Description("Executes a given menu item command. Returns true if the item was found and executed.")]
+        public async UniTask<bool> ExecuteMenuItem([Description("The path of the menu item to execute (e.g., 'File/Save Scene').")] string path)
+        {
+            await UniTask.SwitchToMainThread();
+            return UnityEditor.EditorApplication.ExecuteMenuItem(path);
+        }
+
         private SimpleGameObjectInfo CreateSimpleGameObjectInfo(GameObject gameObject)
         {
             if (gameObject == null) return null;
