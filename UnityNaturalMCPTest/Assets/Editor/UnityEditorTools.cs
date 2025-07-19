@@ -1,15 +1,33 @@
 using System.ComponentModel;
-using ModelContextProtocol.Server;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 
 namespace Editor
 {
     [McpServerToolType, Description("Unity Editor control tools.")]
-    internal sealed class UnityEditorTools
+    internal sealed public class UnityEditorTools
     {
+        // --- Win32 API for Input Simulation and Window Capture ---
+        [DllImport("user32.dll")]
+        static extern bool SetCursorPos(int X, int Y);
+
+        [DllImport("user32.dll")]
+        private static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+
+        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        private const int MOUSEEVENTF_LEFTUP = 0x04;
+
+        [DllImport("user32.dll")]
+        static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+
+        const uint KEYEVENTF_KEYUP = 0x0002;
+
         [McpServerTool, Description("Starts the Unity Editor's play mode.")]
         public async UniTask StartPlayMode()
         {
@@ -217,6 +235,48 @@ namespace Editor
         {
             await UniTask.SwitchToMainThread();
             return UnityEditor.EditorApplication.ExecuteMenuItem(path);
+        }
+
+        [McpServerTool, Description("Captures a screenshot of the screen and returns it as a base64 encoded PNG.")]
+        public async UniTask<string> CaptureEditorScreenshot()
+        {
+            await UniTask.SwitchToMainThread();
+            var texture = ScreenCapture.CaptureScreenshotAsTexture();
+            var bytes = texture.EncodeToPNG();
+            Object.Destroy(texture);
+            return System.Convert.ToBase64String(bytes);
+        }
+
+        [McpServerTool, Description("Moves the mouse cursor to the specified screen coordinates.")]
+        public async UniTask MoveMouse([Description("X coordinate")] int x, [Description("Y coordinate")] int y)
+        {
+            await UniTask.SwitchToMainThread();
+            SetCursorPos(x, y);
+        }
+
+        [McpServerTool, Description("Simulates a left mouse click at the current cursor position.")]
+        public async UniTask SimulateClick()
+        {
+            await UniTask.SwitchToMainThread();
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            await UniTask.Delay(50); // Small delay between down and up
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        }
+
+        [McpServerTool, Description("Simulates keystrokes for a given string.")]
+        public async UniTask SimulateKeystrokes([Description("The string to type.")] string text)
+        {
+            await UniTask.SwitchToMainThread();
+            foreach (char c in text)
+            {
+                // This is a simplified implementation. A full implementation would handle
+                // uppercase, special characters, etc., using virtual key codes (VK_SHIFT, etc.)
+                byte vk = (byte)char.ToUpper(c);
+                keybd_event(vk, 0, 0, System.UIntPtr.Zero);
+                await UniTask.Delay(20);
+                keybd_event(vk, 0, KEYEVENTF_KEYUP, System.UIntPtr.Zero);
+                await UniTask.Delay(30);
+            }
         }
 
         private SimpleGameObjectInfo CreateSimpleGameObjectInfo(GameObject gameObject)
