@@ -1,10 +1,17 @@
 # Project: PowerUnityMCP - Completed Tasks
 
-This document summarizes the work completed for the Unity AI Agent project as of 2025-07-19.
+This document summarizes the work completed for the PowerUnityMCP project as of 2025-07-19.
 
-## Phase 1: Project Setup and Tool Implementation
+## Project Architecture: MCP Server for Unity
 
-The initial phase focused on setting up the Unity project and implementing a comprehensive suite of C# tools to act as the agent's "Hands" within the Unity Editor.
+The goal of this project is to create a powerful and extensible **Model-Context-Protocol (MCP) Server** for the Unity Editor. This server exposes a rich library of tools that a primary, external AI agent can use to perceive and interact with the Unity environment.
+
+The system is composed of two main parts:
+
+1.  **Unity C# MCP Server:** The core tool provider. It runs inside the Unity Editor and exposes C# methods as HTTP endpoints for direct execution.
+2.  **Node.js Orchestrator (Optional Middleware):** A helper service that can receive very high-level, multi-step objectives from the primary agent. It uses its own planner to break down these objectives into a sequence of low-level tool calls that it then sends to the C# MCP Server.
+
+### Phase 1: Core Tool and Server Implementation
 
 ### Completed Tasks:
 
